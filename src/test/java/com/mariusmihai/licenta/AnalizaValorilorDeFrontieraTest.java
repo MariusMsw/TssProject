@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PartitionareClaseEchivalentaTest {
+class AnalizaValorilorDeFrontieraTest {
 
     @Test
     void givenCorrectK_whenSolveProblem_thenOk() {
@@ -17,20 +18,20 @@ class PartitionareClaseEchivalentaTest {
         assertEquals(5, result.get().getX());
         assertEquals(9, result.get().getY());
 
-        Utils.writeInFile(correctValues().setK(100));
+        Utils.writeInFile(correctValues().setK(1));
         result = new SolveLicentaProblem().solveProblem();
-        assert (result.isEmpty());
+        assert (result.isPresent());
     }
 
     @Test
     void givenTooSmallK_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setK(-10));
+        Utils.writeInFile(correctValues().setK(-1));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
     @Test
     void givenTooLargeK_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setK((int) Math.pow(10, 10)));
+        Utils.writeInFile(correctValues().setK((int) Math.pow(10, 9)));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
@@ -42,20 +43,20 @@ class PartitionareClaseEchivalentaTest {
         assertEquals(5, result.get().getX());
         assertEquals(9, result.get().getY());
 
-        Utils.writeInFile(correctValues().setN(1).setS(List.of(new Interval(70, 150))));
+        Utils.writeInFile(correctValues().setN(1).setS(List.of(new Interval((int) Math.pow(10, 9) - 2, (int) Math.pow(10, 9) - 1))));
         result = new SolveLicentaProblem().solveProblem();
         assert (result.isEmpty());
     }
 
     @Test
     void givenTooSmallN_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setN(-100));
+        Utils.writeInFile(correctValues().setN(-1));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
     @Test
     void givenTooLargeN_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setN((int) Math.pow(10, 7)));
+        Utils.writeInFile(correctValues().setN((int) Math.pow(10, 5) + 1));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
@@ -87,10 +88,10 @@ class PartitionareClaseEchivalentaTest {
 
     @Test
     void givenWrongSInterval_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setS(List.of(new Interval(5, 7), new Interval(-120, 185))));
+        Utils.writeInFile(correctValues().setS(List.of(new Interval(5, 7), new Interval(-1, -1))));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
 
-        Utils.writeInFile(correctValues().setS(List.of(new Interval(5, 7), new Interval(220, 185))));
+        Utils.writeInFile(correctValues().setS(List.of(new Interval(5, 7), new Interval(2, 1))));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
 
         Utils.writeInFile(correctValues().setS(List.of(new Interval(5, 7), new Interval(1, (int) (Math.pow(10, 9))))));
@@ -105,20 +106,20 @@ class PartitionareClaseEchivalentaTest {
         assertEquals(5, result.get().getX());
         assertEquals(9, result.get().getY());
 
-        Utils.writeInFile(correctValues().setT(List.of(new Interval(5, 7), new Interval(120, 185))));
+        Utils.writeInFile(correctValues().setT(List.of(new Interval(0, 1), new Interval(0, 1))));
         result = new SolveLicentaProblem().solveProblem();
         assert (result.isEmpty());
     }
 
     @Test
     void givenWrongTInterval_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setT(List.of(new Interval(5, 7), new Interval(-120, 185))));
+        Utils.writeInFile(correctValues().setT(List.of(new Interval(0, 1), new Interval(-1, 185))));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
 
-        Utils.writeInFile(correctValues().setT(List.of(new Interval(5, 7), new Interval(220, 185))));
+        Utils.writeInFile(correctValues().setT(List.of(new Interval(0, 1), new Interval((int) Math.pow(10, 9), (int) Math.pow(10, 9) - 1))));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
 
-        Utils.writeInFile(correctValues().setT(List.of(new Interval(5, 7), new Interval(1, (int) (Math.pow(10, 9))))));
+        Utils.writeInFile(correctValues().setT(List.of(new Interval(0, 1), new Interval(1, (int) (Math.pow(10, 9))))));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 

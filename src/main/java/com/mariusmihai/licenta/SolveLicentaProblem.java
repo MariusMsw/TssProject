@@ -38,6 +38,7 @@ public class SolveLicentaProblem {
             Scanner scanner = new Scanner(new File("licenta.in"));
             K = scanner.nextInt();
             N = scanner.nextInt();
+            checkEntryValues(K, N, 1);
             for (int i = 0; i < N; i++) {
                 S.add(new Interval(scanner.nextInt(), scanner.nextInt()));
             }
