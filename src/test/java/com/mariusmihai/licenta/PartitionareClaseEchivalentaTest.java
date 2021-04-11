@@ -122,7 +122,6 @@ class PartitionareClaseEchivalentaTest {
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
-    @Test
     private FileInput correctValues() {
         return new FileInput()
                 .setK(4)
