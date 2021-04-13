@@ -2,9 +2,7 @@ package com.mariusmihai.licenta;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -62,18 +60,19 @@ public class PartitionareInCategoriiTest {
     }
 
     @Test
-    void givenN_Large_whenSolveProblem_thenThrowsException() {
-        Utils.writeInFile(correctValues().setN((int) Math.pow(10, 5)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
-    }
-
-    @Test
     void givenN_VeryLarge_whenSolveProblem_thenThrowsException() {
         Utils.writeInFile(correctValues().setN((int) Math.pow(10, 10)));
         assertThrows(ValueNotInRangeException.class, () -> new SolveLicentaProblem().solveProblem());
     }
 
     // Correct N
+
+    @Test
+    void givenN_Large_whenSolveProblem_thenSuccess() {
+        Utils.writeInFile(correctValues().setN((int) Math.pow(10, 5)).setS(fillList((int) Math.pow(10, 5))));
+        new SolveLicentaProblem().solveProblem();
+    }
+
     @Test
     void givenN_1_whenSolveProblem_thenOk() {
         Utils.writeInFile(correctValues().setN(1).setS(List.of(new Interval(1, 10))));
@@ -92,8 +91,8 @@ public class PartitionareInCategoriiTest {
 
     @Test
     void givenN_MaxAcceptableValue_whenSolveProblem_thenOk() {
-        Utils.writeInFile(correctValues().setN((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setN((int) (Math.pow(10, 5))).setS(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     //Combinations
@@ -106,62 +105,72 @@ public class PartitionareInCategoriiTest {
 
     @Test
     void givenHighBoundaryValues_whenSolveProblem_thenOk() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5) - 1)).setM((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5))).setM((int) (Math.pow(10, 5)))
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_1_othersMax_ValueTest_thenOk() {
-        Utils.writeInFile(correctValues().setK(1).setN((int) (Math.pow(10, 5) - 1)).setM((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK(1).setN((int) (Math.pow(10, 5))).setM((int) (Math.pow(10, 5)))
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenN_1_othersMax_ValueTest() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN(1).setM((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN(1).setM((int) (Math.pow(10, 5)))
+                .setS(List.of(new Interval(5, 7))).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenM_1_othersMax_ValueTest() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5) - 1)).setM(1));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5))).setM(1)
+                .setT(List.of(new Interval(5, 7))).setS(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_100_othersMax_ValueTest_thenOk() {
-        Utils.writeInFile(correctValues().setK(100).setN((int) (Math.pow(10, 5) - 1)).setM((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK(100).setN((int) (Math.pow(10, 5))).setM((int) (Math.pow(10, 5)))
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenN_100_othersMax_ValueTest() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN(100).setM((int) (Math.pow(10, 5) - 1)));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN(100).setM((int) (Math.pow(10, 5)))
+                .setS(fillList(100)).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenM_100_othersMax_ValueTest() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5) - 1)).setM(100));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5))).setM(100)
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList(100)));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_1_N_100_M_Max_thenOK() {
-        Utils.writeInFile(correctValues().setK(1).setN(100).setM((int) (Math.pow(10, 5) - 1)).setM(100));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK(1).setN(100).setM((int) (Math.pow(10, 5)))
+                .setS(fillList(100)).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_1_N_Max_M_100_thenOK() {
-        Utils.writeInFile(correctValues().setK(1).setN((int) (Math.pow(10, 5) - 1)).setM(100));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK(1).setN((int) (Math.pow(10, 5))).setM(100)
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList(100)));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_100_N_Max_M_100_thenOK() {
-        Utils.writeInFile(correctValues().setK(100).setN((int) (Math.pow(10, 5) - 1)).setM(100));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK(100).setN((int) (Math.pow(10, 5))).setM(100)
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList(100)));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
@@ -180,16 +189,30 @@ public class PartitionareInCategoriiTest {
 
     @Test
     void givenK_Max_N_Max_M_1_thenOK() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5) - 1)).setM(1)
-                .setS(List.of(new Interval(1, 10))).setT(List.of(new Interval(2, 4))));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5))).setM(1)
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(List.of(new Interval(2, 4))));
+        new SolveLicentaProblem().solveProblem();
     }
 
     @Test
     void givenK_Max_N_Max_M_Max_thenOK() {
-        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5) - 1)).setM((int) (Math.pow(10, 5) - 1))
-                .setS(List.of(new Interval(1, 10))).setT(List.of(new Interval(2, 4))));
-        assertThrows(NoSuchElementException.class, () -> new SolveLicentaProblem().solveProblem());
+        Utils.writeInFile(correctValues().setK((int) (Math.pow(10, 9) - 1)).setN((int) (Math.pow(10, 5))).setM((int) (Math.pow(10, 5)))
+                .setS(fillList((int) (Math.pow(10, 5)))).setT(fillList((int) (Math.pow(10, 5)))));
+        new SolveLicentaProblem().solveProblem();
+    }
+
+    private List<Interval> fillList(int numberOfValues) {
+        Random r = new Random();
+        List<Interval> result = new ArrayList<>();
+        for (int i = 0; i < numberOfValues; i++) {
+            int first, second;
+            do {
+                first = r.nextInt((int) Math.pow(10, 9));
+                second = r.nextInt((int) Math.pow(10, 9));
+            } while (first >= second);
+            result.add(new Interval(first, second));
+        }
+        return result;
     }
 
     private FileInput correctValues() {
